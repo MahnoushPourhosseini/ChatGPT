@@ -2,19 +2,23 @@
 const BACKEND_URL = 'http://127.0.0.1:5000'; // This matches my backend configuration
 
 // Ensure the fetchingn
-fetch('http://127.0.0.1:5000/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages: [{ role: "user", content: "Test question?" }] })
-})
-.then(response => response.json())
-.then(data => console.log("Success:", data))
-.catch(error => console.error("Fetch Error:", error));
+// fetch('http://127.0.0.1:5000/chat', {
+//     method: 'POST',
+//     headers: {
+//         'Content-Type': 'application/json',
+//         'Access-Control-Allow-Origin': '*',
+//         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
+//         'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+//     },
+//     body: JSON.stringify({ messages: [{ role: "user", content: "Test question?" }] })
+// })
+//     .then(response => {
+//         console.log(response);
+//         response.json();
+//     })
+// .then(data => console.log("Success:", data))
+// .catch(error => console.error("Fetch Error:", error));
 
-// CORS problem
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH
-Access-Control-Allow-Headers: Content-Type, Authorization
 
 // Function to send a question to the backend
 async function askQuestion() {
@@ -31,7 +35,11 @@ async function askQuestion() {
         // Send the user's input to the backend
         const response = await fetch(`${BACKEND_URL}/chat`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS, PATCH',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization' },
             body: JSON.stringify({ messages: [{ role: "user", content: userInput }] })
         });
 
@@ -83,4 +91,4 @@ async function loadHistory() {
 document.getElementById("send-button").addEventListener("click", askQuestion);
 
 // Call loadHistory() when the page loads
-window.onload = loadHistory;
+// window.onload = loadHistory();

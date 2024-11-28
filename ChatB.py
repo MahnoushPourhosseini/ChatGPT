@@ -1,33 +1,16 @@
 # fixing the error: Failed to get a response from the server.
+import asyncio
 import logging
-logging.basicConfig(level=logging.DEBUG)
-
-@app.route('/chat', methods=['POST'])
-async def chat():
-    data = await request.get_json()
-    logging.debug(f"Received request data: {data}")
-
-    
-# rest of the code
 import json
-import openai
+from openai import OpenAI
 from quart import Quart, request, jsonify
 from quart_cors import cors
 
-from quart_cors import cors
-app = cors(app, allow_origin="*")  # Allow all origins for development
-
-app = cors(app, allow_origin="http://192.168.1.10:5500")  # Example for frontend IP and port
-
-
-# Initialize Quart app with CORS
+logging.basicConfig(level=logging.DEBUG)
+   
 app = Quart(__name__)
 app = cors(app, allow_origin="*")  # Allow all origins for development
-
-# Set your OpenAI API Key
-openai.api_key = "my-api-key"
-
-# Chat history file
+client = OpenAI(api_key="")
 CHAT_HISTORY_FILE = "chat_history.json"
 
 # Helper function to load chat history
@@ -49,6 +32,7 @@ async def chat():
     try:
         # Get data from frontend
         data = await request.get_json()
+        logging.debug(f"Received request data: {data}")
         user_message = data.get("messages", [{}])[0].get("content", "")
 
         if not user_message:
@@ -61,20 +45,42 @@ async def chat():
         ]
 
         # Make an API call to OpenAI
-        response = await asyncio.to_thread(
-            openai.ChatCompletion.create,
-            model="gpt-3.5-turbo",  # Use GPT-4 if accessible
-            messages=messages
-        )
-
+        # response = await asyncio.to_thread(
+        #     client.chat.completions.create(
+        #     model="gpt-3.5-turbo",  # Use GPT-4 if accessible
+        #     messages=messages)
+        # )
+        response = {
+            "id": "chatcmpl-123",
+            "object": "chat.completion",
+            "created": 1696438900,
+            "model": "gpt-3.5-turbo",
+            "choices": [
+                {
+                    "index": 0,
+                    "message": {
+                        "role": "assistant",
+                        "content": "This is a dummy response generated to test your application logic."
+                    },
+                    "finish_reason": "stop"
+                }
+            ],
+            "usage": {
+                "prompt_tokens": 10,
+                "completion_tokens": 15,
+                "total_tokens": 25
+            }
+        }
+  
         # Extract the chatbot's reply
         chatbot_reply = response['choices'][0]['message']['content']
 
         # Update chat history
-        history = load_chat_history()
-        history.append({ "role": "user", "content": user_message })
-        history.append({ "role": "assistant", "content": chatbot_reply })
-        save_chat_history(history)
+        # history = load_chat_history()
+       
+        # history.append({ "role": "user", "content": user_message })
+        # history.append({ "role": "assistant", "content": chatbot_reply })
+        # save_chat_history(history)
 
         # Return chatbot's reply
         return jsonify({"answer": chatbot_reply}), 200
