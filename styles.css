@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #675305, #caa439, #e4cc95); /* Top to bottom gradient */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;    /* Center vertically */
+    height: 100vh;          /* Full viewport height */
+    color: white;           /* Default text color */
+}
+
+.chat-container {
+    width: 70%;             /* Larger box */
+    max-width: 800px;       /* Prevent it from being too wide on large screens */
+    height: 60%;            /* Larger height */
+    max-height: 600px;      /* Prevent it from being too tall on large screens */
+    
+    color: rgb(255, 255, 255);
+    background: #012736;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbox {
+    padding: 20px;
+    flex-grow: 1;           /* Take up all available vertical space */
+    overflow-y: auto;       /* Scroll if the content overflows */
+    font-size: 1.2rem;      /* Bigger font size */
+    line-height: 1.6;       /* Better readability */
+    color: rgb(0, 0, 0);           /* Chatbox text color */
+    color: rgb(255, 255, 255);
+}
+
+textarea {
+    width: 80%;
+    height: 70px;           /* Bigger text input */
+    padding: 15px;
+    margin: 10px;
+    border: 1px solid #e7b8f6;
+    border-radius: 5px;
+    resize: none;
+    font-size: 1.2rem;      /* Bigger font size for input */
+}
+
+button {
+    padding: 15px 30px;
+    margin: 10px;
+    background: #ff9900;
+    color: rgb(3, 3, 3);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.2rem;      /* Bigger button text */
+    transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+button:hover {
+    background: #60d128;    /* Green hover effect */
+}
